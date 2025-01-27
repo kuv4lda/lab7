@@ -17,7 +17,6 @@ public class Car {
     private int power;
     private int weight;
 
-    // Getters, setters, and constructors
     public Car() {}
 
     public Car(String brand, String model, int power, int weight) {
@@ -27,7 +26,6 @@ public class Car {
         this.weight = weight;
     }
 
-    // Геттеры и сеттеры
     public Long getId() {
         return id;
     }
