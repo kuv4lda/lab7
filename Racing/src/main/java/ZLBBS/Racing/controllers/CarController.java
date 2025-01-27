@@ -25,60 +25,55 @@ public class CarController {
     @GetMapping
     public String getAllCars(Model model) {
         model.addAttribute("cars", carService.findAll());
-        return "cars_list"; // Здесь указываем имя шаблона
+        return "cars_list"; 
     }
 
     // Отображение формы для добавления нового автомобиля
     @GetMapping("/new")
     public String showAddCarForm(Model model) {
-        model.addAttribute("car", new Car()); // Пустой объект для формы
-        return "car_add"; // Название шаблона car_add.html
+        model.addAttribute("car", new Car()); 
+        return "car_add";
     }
 
     // Обработка данных из формы
     @PostMapping("/new")
     public String addCar(@ModelAttribute("car") Car car, Model model) {
         try {
-            carService.save(car); // Сохраняем новый автомобиль
-            return "redirect:/cars"; // Перенаправление на страницу списка машин после добавления
+            carService.save(car);
+            return "redirect:/cars";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Failed to add car.");
-            return "car_add"; // Если ошибка, возвращаем на форму добавления
+            return "car_add";
         }
     }
 
     // Страница для редактирования автомобиля
     @GetMapping("/edit/{id}")
     public String editCar(@PathVariable("id") Long id, Model model) {
-        Optional<Car> carOptional = carService.findById(id); // Используем findById
+        Optional<Car> carOptional = carService.findById(id);
         if (carOptional.isPresent()) {
             model.addAttribute("car", carOptional.get());
-            return "car_edit"; // Имя шаблона для редактирования
+            return "car_edit";
         } else {
-            // Если автомобиль не найден, можно вернуть ошибку или страницу с сообщением
-            return "car_not_found"; // Страница ошибки
+            return "car_not_found";
         }
     }
 
     // Обработчик для сохранения изменений
     @PostMapping("/edit/{id}")
     public String saveCar(@PathVariable("id") Long id, @ModelAttribute Car car) {
-        car.setId(id);  // Устанавливаем ID, чтобы не потерять его при редактировании
-        carService.save(car); // Используем метод save
-        return "redirect:/cars"; // Перенаправляем на список всех автомобилей
+        car.setId(id);
+        carService.save(car);
+        return "redirect:/cars";
     }
 
     // Метод для удаления автомобиля
     @PostMapping("/delete/{id}")
     public String deleteCar(@PathVariable("id") Long id) {
-        // Проверяем, используется ли автомобиль в заезде
         if (raceService.isCarUsedInRace(id)) {
-            // Если автомобиль используется в заезде, не удаляем и показываем сообщение
             return "redirect:/cars?error=Car+is+used+in+a+race";
         }
-
-        // Если не используется в заезде, удаляем
         carService.deleteById(id);
-        return "redirect:/cars"; // Перенаправляем на страницу с автомобилями
+        return "redirect:/cars";
     }
 }
