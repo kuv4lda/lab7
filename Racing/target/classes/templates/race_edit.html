@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Race</title>
+</head>
+<body>
+<h1>Edit Race</h1>
+
+<!-- Форма отправляется на URL /races/edit/{id} -->
+<form th:action="@{/races/edit/{id}(id=${race.id})}" method="post" th:object="${race}">
+
+    <!-- Поле для выбора автомобиля -->
+    <div>
+        <label for="car">Car:</label>
+        <select th:field="*{car.id}" required>
+            <option value="" disabled>Select a car</option>
+            <th:block th:each="car : ${cars}">
+                <!-- Здесь сравниваем id car с car.id -->
+                <option th:value="${car.id}" th:text="${car.brand + ' ' + car.model}"
+                        th:selected="*{car.id} == ${race.car.id}"></option>
+            </th:block>
+        </select>
+    </div>
+
+    <!-- Поле для выбора водителя -->
+    <div>
+        <label for="driver">Driver:</label>
+        <select th:field="*{driver.id}" required>
+            <option value="" disabled>Select a driver</option>
+            <th:block th:each="driver : ${drivers}">
+                <!-- Здесь также сравниваем id водителя -->
+                <option th:value="${driver.id}" th:text="${driver.fullName}"
+                        th:selected="*{driver.id} == ${race.driver.id}"></option>
+            </th:block>
+        </select>
+    </div>
+
+    <!-- Поле для трека -->
+    <div>
+        <label for="track">Track:</label>
+        <input type="text" th:field="*{track}" required>
+    </div>
+
+    <div>
+        <button type="submit">Update Race</button>
+    </div>
+</form>
+
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+</body>
+</html>

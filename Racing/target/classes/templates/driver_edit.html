@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Driver</title>
+</head>
+<body>
+<h1>Edit Driver</h1>
+
+<form th:action="@{/drivers/edit/{id}(id=${driver.id})}" method="post" th:object="${driver}">
+
+    <!-- Поле для полного имени водителя -->
+    <div>
+        <label for="fullName">Full Name:</label>
+        <input type="text" th:field="*{fullName}" required>
+    </div>
+
+    <!-- Поле для возраста водителя -->
+    <div>
+        <label for="age">Age:</label>
+        <input type="number" th:field="*{age}" required>
+    </div>
+
+    <div>
+        <button type="submit">Save Changes</button>
+    </div>
+</form>
+
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+</body>
+</html>

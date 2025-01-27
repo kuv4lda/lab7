@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Car</title>
+</head>
+<body>
+<h1>Add New Car</h1>
+
+<form th:action="@{/cars/new}" method="post" th:object="${car}">
+
+    <!-- Поле для марки автомобиля -->
+    <div>
+        <label for="brand">Brand:</label>
+        <input type="text" th:field="*{brand}" required>
+    </div>
+
+    <!-- Поле для модели автомобиля -->
+    <div>
+        <label for="model">Model:</label>
+        <input type="text" th:field="*{model}" required>
+    </div>
+
+    <!-- Поле для мощности автомобиля -->
+    <div>
+        <label for="power">Power (HP):</label>
+        <input type="number" th:field="*{power}" required>
+    </div>
+
+    <!-- Поле для веса автомобиля -->
+    <div>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" th:field="*{weight}" required>
+    </div>
+
+    <div>
+        <button type="submit">Add Car</button>
+    </div>
+</form>
+
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+</body>
+</html>

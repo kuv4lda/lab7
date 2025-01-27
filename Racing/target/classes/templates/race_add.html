@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Race</title>
+</head>
+<body>
+<h1>Add Race</h1>
+
+<form action="/races/new" method="post">
+    <div>
+        <label for="car">Car:</label>
+        <select name="car.id" id="car" required>
+            <option value="" disabled selected>Select a car</option>
+            <th:block th:each="car : ${cars}">
+                <option th:value="${car.id}" th:text="${car.brand + ' ' + car.model}"></option>
+            </th:block>
+        </select>
+    </div>
+
+    <div>
+        <label for="driver">Driver:</label>
+        <select name="driver.id" id="driver" required>
+            <option value="" disabled selected>Select a driver</option>
+            <th:block th:each="driver : ${drivers}">
+                <option th:value="${driver.id}" th:text="${driver.fullName}"></option>
+            </th:block>
+        </select>
+    </div>
+
+    <div>
+        <label for="track">Track:</label>
+        <input type="text" id="track" name="track" required>
+    </div>
+
+    <div>
+        <button type="submit">Add Race</button>
+    </div>
+</form>
+
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-4">Race List</h1>
+
+    <!-- Таблица с информацией о заездах -->
+    <table class="table table-bordered mt-4">
+        <thead>
+        <tr>
+            <th scope="col">Driver</th>
+            <th scope="col">Car</th>
+            <th scope="col">Track</th>
+            <th scope="col">Actions</th> <!-- Колонка для действий -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Перебираем список RaceDTO и выводим информацию в таблицу -->
+        <tr th:each="race : ${races}">
+            <td th:text="${race.driverName}"></td> <!-- ФИО водителя -->
+            <td th:text="${race.carInfo}"></td>    <!-- Марка и модель машины -->
+            <td th:text="${race.track}"></td>       <!-- Трасса -->
+
+            <!-- Кнопки для редактирования и удаления -->
+            <td>
+                <a th:href="@{/races/edit/{id}(id=${race.id})}" class="btn btn-warning btn-sm">Edit</a> <!-- Ссылка для редактирования -->
+                <a th:href="@{/races/delete/{id}(id=${race.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this race?')">Delete</a> <!-- Ссылка для удаления -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Кнопки для создания нового заезда и перехода к таблицам автомобилей и водителей -->
+    <div class="d-flex justify-content-start mt-3">
+        <a href="/races/new" class="btn btn-primary mr-2">Create New Race</a>
+        <a href="/cars" class="btn btn-secondary mr-2">Car List</a>
+        <a href="/drivers" class="btn btn-secondary">Driver List</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

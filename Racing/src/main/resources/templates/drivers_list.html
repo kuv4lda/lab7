@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script>
+    // Функция для подтверждения удаления
+    function confirmDeletion() {
+        return confirm("Are you sure you want to delete this driver?");
+    }
+  </script>
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="mb-4">Driver List</h1>
+
+  <!-- Проверка на ошибки -->
+  <div th:if="${param.error}">
+    <div class="alert alert-danger">
+      <p th:text="${param.error}"></p>
+    </div>
+  </div>
+
+  <!-- Если нет водителей -->
+  <div th:if="${#lists.isEmpty(drivers)}">
+    <p>No drivers found.</p>
+  </div>
+
+  <!-- Таблица с водителями -->
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Full Name</th>
+      <th>Age</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Перебор списка водителей -->
+    <tr th:each="driver : ${drivers}">
+      <td th:text="${driver.fullName}"></td>
+      <td th:text="${driver.age}"></td>
+      <td>
+        <!-- Кнопка редактирования водителя -->
+        <a th:href="@{/drivers/edit/{id}(id=${driver.id})}" class="btn btn-warning btn-sm">Edit</a>
+
+        <!-- Форма для удаления водителя с подтверждением -->
+        <form th:action="@{/drivers/delete/{id}(id=${driver.id})}" method="post" style="display:inline;"
+              onsubmit="return confirmDeletion();">
+          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Контейнер для кнопок -->
+  <div class="d-flex mt-3">
+    <!-- Кнопка для добавления нового водителя -->
+    <a href="/drivers/new" class="btn btn-primary mr-2">Add New Driver</a>
+
+    <!-- Кнопки для перехода к другим таблицам -->
+    <a href="/cars" class="btn btn-secondary mr-2">Car List</a>
+    <a href="/races" class="btn btn-secondary">Race List</a>
+  </div>
+</div>
+</body>
+</html>

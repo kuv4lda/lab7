@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        function confirmDeletion() {
+            return confirm("Are you sure you want to delete this car?");
+        }
+    </script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Car List</h1>
+
+    <!-- Проверяем, есть ли ошибка -->
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">
+            <p th:text="${param.error}"></p>
+        </div>
+    </div>
+
+    <!-- Проверяем, есть ли машины в списке -->
+    <div th:if="${#lists.isEmpty(cars)}">
+        <p>No cars found.</p>
+    </div>
+
+    <!-- Таблица с автомобилями -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Power (hp)</th>
+            <th>Weight (kg)</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Перебираем список машин -->
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.brand}"></td>
+            <td th:text="${car.model}"></td>
+            <td th:text="${car.power}"></td>
+            <td th:text="${car.weight}"></td>
+            <td>
+                <!-- Кнопки для редактирования и удаления -->
+                <a th:href="@{/cars/edit/{id}(id=${car.id})}" class="btn btn-warning btn-sm">Edit</a>
+
+                <!-- Удаление автомобиля с подтверждением -->
+                <form th:action="@{/cars/delete/{id}(id=${car.id})}" method="post" style="display:inline;"
+                      onsubmit="return confirmDeletion();">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Контейнер для кнопок -->
+    <div class="d-flex mt-3">
+        <!-- Кнопка для добавления нового автомобиля -->
+        <a href="/cars/new" class="btn btn-primary mr-2">Add New Car</a>
+
+        <!-- Кнопки для перехода к другим таблицам -->
+        <a href="/races" class="btn btn-secondary mr-2">Race list</a>
+        <a href="/drivers" class="btn btn-secondary">Driver list</a>
+    </div>
+</div>
+</body>
+</html>
