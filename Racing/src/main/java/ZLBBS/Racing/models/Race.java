@@ -24,7 +24,6 @@ public class Race {
 
     private String track;
 
-    // Getters, setters, and constructors
     public Race() {}
 
     public Race(Car car, Driver driver, String track) {
@@ -33,7 +32,6 @@ public class Race {
         this.track = track;
     }
 
-    // Геттеры и сеттеры
     public Long getId() {
         return id;
     }
