@@ -15,7 +15,6 @@ public class Driver {
     private String fullName;
     private int age;
 
-    // Конструкторы
     public Driver() {}
 
     public Driver(String fullName, int age) {
@@ -23,7 +22,6 @@ public class Driver {
         this.age = age;
     }
 
-    // Геттеры и сеттеры
     public Long getId() {
         return id;
     }
