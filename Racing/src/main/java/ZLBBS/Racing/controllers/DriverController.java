@@ -24,7 +24,7 @@ public class DriverController {
     @GetMapping
     public String getAllDrivers(Model model) {
         model.addAttribute("drivers", driverService.findAll());
-        return "drivers_list"; // Имя шаблона
+        return "drivers_list";
     }
 
     // Форма для добавления нового водителя
@@ -52,10 +52,10 @@ public class DriverController {
         Optional<Driver> driverOptional = driverService.findById(id);
         if (driverOptional.isPresent()) {
             model.addAttribute("driver", driverOptional.get());
-            return "driver_edit"; // Шаблон для редактирования водителя
+            return "driver_edit"; 
         } else {
             model.addAttribute("errorMessage", "Driver not found.");
-            return "driver_not_found"; // Если водитель не найден
+            return "driver_not_found";
         }
     }
 
@@ -63,26 +63,22 @@ public class DriverController {
     @PostMapping("/edit/{id}")
     public String saveDriver(@PathVariable("id") Long id, @ModelAttribute Driver driver, Model model) {
         try {
-            driver.setId(id); // Установка ID
-            driverService.save(driver); // Сохранение изменений
-            return "redirect:/drivers"; // Перенаправление на страницу списка
+            driver.setId(id); 
+            driverService.save(driver);
+            return "redirect:/drivers"; 
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error saving driver.");
-            return "driver_edit"; // Если ошибка, возвращаем на страницу редактирования
+            return "driver_edit";
         }
     }
 
     // Метод для удаления водителя
     @PostMapping("/delete/{id}")
     public String deleteDriver(@PathVariable("id") Long id) {
-        // Проверяем, участвует ли водитель в заезде
         if (raceService.isDriverUsedInRace(id)) {
-            // Если водитель участвует в заезде, не удаляем и показываем сообщение
             return "redirect:/drivers?error=Driver+is+used+in+a+race";
         }
-
-        // Если не участвует в заезде, удаляем
         driverService.deleteById(id);
-        return "redirect:/drivers"; // Перенаправляем на страницу со списком водителей
+        return "redirect:/drivers"; 
     }
 }
